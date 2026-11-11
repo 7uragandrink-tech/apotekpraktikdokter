@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════════════════
+   Praktek Mandiri Dokter Spesialis — style.css
+   Catatan: berkas ini DIREKONSTRUKSI dari class yang dipakai aplikasi (Stylesheet.html asli tidak ikut diunggah).
+   Bila Anda punya Stylesheet.html asli: salin isi di antara <style> dan </style> ke berkas ini (timpa seluruhnya).
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --brand: #0b86d6; --brand2: #0a68a8;          /* warna utama (sidebar, bilah atas, tombol) */
+  --bg: #f1f4f9; --card: #ffffff; --soft: #eaf2fb; --line: #e1e8f0; --ink: #1f2937; --muted: #64748b;
+  --side-w: 230px; --top-h: 46px;
+}
+/* Warna tema mengikuti peran pengguna (diatur aplikasi: <html data-role="...">) */
+[data-role="Pemilik"]          { --brand: #0b86d6; --brand2: #0a68a8; }
+[data-role="Apotek dan Kasir"] { --brand: #0a5f9d; --brand2: #083f6b; }
+[data-role="Dokter"]           { --brand: #0e8f7e; --brand2: #0a6b5e; }
+[data-role="Pendaftaran"]      { --brand: #6d4cc2; --brand2: #51379a; }
+[data-theme="dark"] { --bg: #0f1724; --card: #172133; --soft: #1b2a41; --line: #2a3a52; --ink: #e5e7eb; --muted: #94a3b8; }
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--bg) !important; color: var(--bs-body-color); font-size: .93rem; }
+a { color: var(--brand); }
+h5, h6 { font-weight: 700; }
+label.small { font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+.form-control:focus, .form-select:focus { border-color: var(--brand); box-shadow: 0 0 0 .2rem color-mix(in srgb, var(--brand) 22%, transparent); }
+.form-check-input:checked { background-color: var(--brand); border-color: var(--brand); }
+
+/* ── Tombol ── */
+.btn-brand { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
+.btn-brand:hover, .btn-brand:focus { background: var(--brand2); border-color: var(--brand2); color: #fff; }
+.btn-brand:disabled { opacity: .6; }
+
+/* ── Lapisan penuh: memuat / login / indikator proses ── */
+.spin-overlay { position: fixed; inset: 0; z-index: 3000; display: flex; align-items: center; justify-content: center; overflow: auto; background: rgba(15, 23, 36, .55); padding: 16px; }
+.spin-overlay.d-none { display: none !important; }
+#boot { background: linear-gradient(135deg, var(--brand), var(--brand2)); z-index: 3500; }
+#login { background: linear-gradient(135deg, var(--brand), var(--brand2)); }
+
+/* ── Logo & kartu login ── */
+.logo { display: inline-block; flex: none; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M18 6h12v12h12v12H30v12H18V30H6V18h12z' fill='none' stroke='%230b86d6' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M24 16v16M16 24h16' stroke='%2310b981' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E") center / 72% no-repeat; }
+.logo-sm { width: 36px; height: 36px; border-radius: 10px; }
+.logo-lg { width: 64px; height: 64px; border-radius: 18px; }
+.login-card { width: min(94vw, 390px); margin: auto; padding: 1.4rem 1.4rem 1.1rem; border: 0; border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3); position: relative; top: 32px; } /* top:32px mengimbangi lencana logo yang menonjol ke atas, agar kartu+logo terlihat di tengah layar */
+.logo-badge { display: flex; align-items: center; justify-content: center; width: 84px; height: 84px; margin: -64px auto 10px; border-radius: 50%; background: var(--card); box-shadow: 0 6px 18px rgba(0, 0, 0, .2); }
+
+/* ── Sidebar ── */
+.sidebar { position: fixed; z-index: 1040; top: 0; bottom: 0; left: 0; width: var(--side-w); display: flex; flex-direction: column; color: #fff;
+  background: linear-gradient(180deg, var(--brand) 0%, var(--brand2) 100%); transform: translateX(-100%); transition: transform .22s ease; }
+.sidebar.show { transform: none; box-shadow: 6px 0 24px rgba(0, 0, 0, .3); }
+.brand { display: flex; align-items: center; gap: 10px; padding: 12px 14px; font-weight: 700; line-height: 1.15; border-bottom: 1px solid rgba(255, 255, 255, .16); }
+.menu { list-style: none; margin: 0; padding: 8px 0; flex: 1; overflow-y: auto; }
+.menu a { display: flex; align-items: center; gap: 10px; padding: 10px 16px; color: rgba(255, 255, 255, .86); text-decoration: none; cursor: pointer; user-select: none; font-size: .92rem; border-left: 3px solid transparent; }
+.menu a:hover { background: rgba(255, 255, 255, .10); color: #fff; }
+.menu a.on { background: rgba(255, 255, 255, .18); color: #fff; font-weight: 600; border-left-color: #fff; }
+.menu a .bi { font-size: 1.05rem; width: 20px; text-align: center; }
+.side-foot { padding: 12px 16px; border-top: 1px solid rgba(255, 255, 255, .16); }
+.shade { position: fixed; inset: 0; z-index: 1030; background: rgba(0, 0, 0, .5); display: none; }
+.shade.show { display: block; }
+
+/* ── Area utama ── */
+.main { min-height: 100vh; }
+.topbar { position: sticky; top: 0; z-index: 1020; height: var(--top-h); display: flex; align-items: center; gap: 10px; padding: 0 14px; color: #fff; background: var(--brand); box-shadow: 0 1px 4px rgba(0, 0, 0, .18); }
+.topbar .btn-outline-light { --bs-btn-padding-y: .1rem; --bs-btn-padding-x: .45rem; }
+@media (min-width: 992px) {
+  .sidebar { transform: none; box-shadow: none; }
+  .shade, .shade.show { display: none; }
+  .main { margin-left: var(--side-w); }
+}
+
+/* ── Judul halaman, kartu, KPI, ringkasan ── */
+.ph { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.ph h5 { margin: 0; font-size: 1.25rem; }
+.card { --bs-card-bg: var(--card); background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 1px 2px rgba(16, 24, 40, .05); }
+.card h6 { margin-bottom: .6rem; }
+.kpi { padding: 14px 16px; border-left: 4px solid var(--brand); }
+.kpi .v { font-size: 1.7rem; font-weight: 700; line-height: 1.1; color: var(--brand); }
+.kpi .l { margin-top: 4px; font-size: .8rem; color: var(--muted); }
+.insight { height: 100%; padding: 14px 16px; border-radius: 12px; background: var(--soft); border-left: 4px solid var(--brand); }
+.insight h6 { color: var(--brand); }
+.insight li { margin-bottom: 4px; }
+
+/* ── Tabel ── */
+.table { --bs-table-bg: transparent; margin-bottom: 0; }
+.table thead th { font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; font-weight: 700; color: var(--muted); background: var(--soft); border-bottom: 1px solid var(--line); white-space: nowrap; }
+.table td { vertical-align: middle; }
+.table-hover > tbody > tr:hover > * { background-color: color-mix(in srgb, var(--brand) 6%, transparent); }
+.table-warning { --bs-table-bg: color-mix(in srgb, #ffc107 22%, transparent); }
+
+/* ── Bilah ekspor tabel & tombol ikon ── */
+.tb-bar { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; }
+.tb-bar .btn { color: #fff; font-weight: 600; font-size: .8rem; border: 0; }
+.tb-bar .btn:hover { filter: brightness(.92); color: #fff; }
+.tb-csv { background: #5b4fc9; } .tb-xls { background: #198754; } .tb-prt { background: #d9910a; } .tb-vis { background: #0f9bb5; } .tb-pdf { background: #d6403d; }
+.ib { display: inline-flex; align-items: center; justify-content: center; padding: 3px 6px; margin: 0 1px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-size: 1.02rem; line-height: 1; cursor: pointer; }
+.ib:hover { background: var(--soft); }
+.ib.ed { color: #2563eb; } .ib.dl { color: #dc2626; }
+
+/* ── Password (Pengaturan → Pengguna), struk ── */
+.pwt code { font-size: .8rem; }
+.struk { max-width: 340px; margin: 0 auto; padding: 12px; font-family: 'Courier New', ui-monospace, monospace; font-size: .85rem; border: 1px dashed var(--muted); border-radius: 6px; background: var(--card); }
+.struk hr { margin: .5rem 0; border-top: 1px dashed var(--muted); opacity: 1; }
+
+/* ── Modal & toast ── */
+.modal-content { border: 0; border-radius: 14px; }
+.modal-header { background: var(--soft); border-bottom: 1px solid var(--line); border-radius: 14px 14px 0 0; }
+.toast { box-shadow: 0 6px 20px rgba(0, 0, 0, .2); }
+
+/* ── Cetak: struk/ringkasan di dalam modal, atau satu kartu tabel (.pt-target) ── */
+@media print {
+  body { background: #fff !important; }
+  .sidebar, .topbar, .shade, .toast-container, .spin-overlay, .modal-backdrop { display: none !important; }
+  .main { margin-left: 0 !important; }
+  .noexp, .tb-bar { display: none !important; }
+  body.modal-open * { visibility: hidden; }
+  body.modal-open .modal-body, body.modal-open .modal-body * { visibility: visible; }
+  body.modal-open .modal-body { position: absolute; left: 0; top: 0; width: 100%; }
+  body:has(.pt-target) * { visibility: hidden; }
+  body:has(.pt-target) .pt-target, body:has(.pt-target) .pt-target * { visibility: visible; }
+  body:has(.pt-target) .pt-target { position: absolute; left: 0; top: 0; width: 100%; border: 0; box-shadow: none; }
+}

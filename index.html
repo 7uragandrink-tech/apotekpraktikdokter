@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light" data-bs-theme="light">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#0b86d6">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%230b86d6'/%3E%3Cpath d='M20 9h8v11h11v8H28v11h-8V28H9v-8h11z' fill='%23fff'/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem("apk_th")||"light";document.documentElement.dataset.theme=t;document.documentElement.dataset.bsTheme=t}catch(e){}</script>
+<title>Praktek Mandiri Dokter Spesialis</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<noscript><div style="padding:2rem;text-align:center">Aplikasi ini membutuhkan JavaScript. Aktifkan JavaScript di peramban Anda.</div></noscript>
+<div id="spin" class="spin-overlay d-none"><div class="spinner-border text-light"></div></div>
+<script>window.addEventListener('error',function(e){var b=document.getElementById('boot');if(b)b.innerHTML='<div class="text-white text-center p-4">Gagal memuat aplikasi:<br>'+(e.message||'error')+(e.lineno?' [baris '+e.lineno+':'+(e.colno||0)+']':'')+'</div>';});</script>
+<div id="boot" class="spin-overlay"><div class="text-center text-white"><div class="spinner-border"></div><p class="mt-3">Memuat aplikasi…</p></div></div>
+<div id="login" class="spin-overlay d-none" style="z-index:2500"><div class="card login-card">
+  <div class="logo-badge"><span class="logo logo-lg"></span></div>
+  <div id="lg1">
+    <div class="text-center mb-3"><h5 class="mb-0 fw-bold">Masuk Aplikasi</h5><div class="small text-muted">Praktek Mandiri Dokter Spesialis</div></div>
+    <label class="small">Username</label><div class="input-group mb-2"><span class="input-group-text"><i class="bi bi-person"></i></span><input id="lu" class="form-control" autocomplete="username" autocapitalize="none" onkeydown="if(event.key==='Enter')$('#lp').focus()"></div>
+    <label class="small">Password</label><div class="input-group"><span class="input-group-text"><i class="bi bi-lock"></i></span><input id="lp" type="password" class="form-control" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"><button class="btn btn-outline-secondary" type="button" tabindex="-1" title="Tampilkan / sembunyikan password" onclick="togglePw('lp',this)"><i class="bi bi-eye"></i></button></div>
+    <div class="text-end mt-1"><a href="#" class="small" onclick="showPanel(2);return false">Lupa password?</a></div>
+    <div class="form-check small mt-2"><input id="lingat" class="form-check-input" type="checkbox"><label class="form-check-label" for="lingat">Tetap masuk di perangkat ini (30 hari)</label><div class="text-muted" style="font-size:.72rem">Jangan dicentang di komputer umum / bersama.</div></div>
+    <div id="lerr" class="text-danger small mt-1"></div><button class="btn btn-brand w-100 mt-2" onclick="doLogin()">Masuk</button>
+    <div class="small text-muted text-center mt-2">Lupa username? Tanyakan ke Pemilik (Pengaturan → Pengguna).</div>
+  </div>
+  <div id="lg2" class="d-none">
+    <div class="text-center mb-2"><h5 class="mb-0 fw-bold">Lupa Password</h5></div>
+    <div class="alert alert-info small py-2 mb-2"><b>Dokter / staf:</b> minta Pemilik mereset password Anda (Pengaturan → Pengguna → ikon kunci), lalu Anda diminta membuat password baru saat masuk.<br><b>Pemilik:</b> isi Kode Pemulihan terbaru (12 karakter, tanda “-” otomatis); username boleh dikosongkan. Kode bisa dilihat kapan saja di Pengaturan → Keamanan Akun. Setelah dipakai, kode baru dibuat otomatis.</div>
+    <input id="fu" class="form-control mb-2" placeholder="Username Pemilik (boleh kosong bila hanya satu Pemilik)" autocapitalize="none">
+    <input id="fk" class="form-control mb-2" placeholder="Kode pemulihan (XXXX-XXXX-XXXX)" autocapitalize="characters" autocomplete="off" spellcheck="false" oninput="fmtKode(this)">
+    <div class="input-group mb-2"><input id="fp1" type="password" class="form-control" autocomplete="new-password" placeholder="Password baru (min. 6 karakter)"><button class="btn btn-outline-secondary" type="button" tabindex="-1" onclick="togglePw('fp1',this)"><i class="bi bi-eye"></i></button></div>
+    <input id="fp2" type="password" class="form-control mb-2" autocomplete="new-password" placeholder="Ulangi password baru" onkeydown="if(event.key==='Enter')doLupa()">
+    <div id="lerr2" class="text-danger small"></div><button class="btn btn-brand w-100 mt-1" onclick="doLupa()">Atur Ulang Password</button>
+    <a href="#" class="d-block text-center small mt-2" onclick="showPanel(1);return false">← Kembali ke halaman masuk</a>
+    <div class="small text-muted mt-2">Kode hilang? Pemilik skrip dapat menjalankan fungsi <code>resetPasswordPemilik</code> di editor Apps Script.</div>
+  </div>
+  <div id="lg3" class="d-none">
+    <div class="text-center mb-2"><h5 class="mb-0 fw-bold text-success"><i class="bi bi-check-circle-fill"></i> Password Diatur Ulang</h5></div>
+    <div class="alert alert-warning small py-2 mb-2">Kode lama sudah terpakai. <b>Simpan kode pemulihan baru ini</b> (catat, foto, atau unduh) untuk berjaga-jaga di lain waktu.</div>
+    <div id="nk" class="p-3 text-center rounded fs-4 fw-bold mb-2" style="background:var(--soft);letter-spacing:2px;user-select:all"></div>
+    <div class="d-flex gap-2 mb-2"><button class="btn btn-outline-secondary flex-fill" onclick="copyText($('#nk').textContent)"><i class="bi bi-clipboard"></i> Salin</button><button class="btn btn-outline-secondary flex-fill" onclick="unduhKode($('#nk').textContent)"><i class="bi bi-download"></i> Unduh</button></div>
+    <button class="btn btn-brand w-100" onclick="lupaMasuk()">Simpan Kode &amp; Masuk Otomatis</button>
+  </div>
+  <div class="text-center small text-muted mt-3">Praktek Mandiri Dokter Spesialis</div>
+</div></div>
+<nav id="sidebar" class="sidebar">
+  <div class="brand"><span class="logo logo-sm"></span><span id="brandName">Klinik</span></div>
+  <ul id="menu" class="menu"></ul>
+  <div class="side-foot"><label class="form-check form-switch text-white-50 small"><input class="form-check-input" type="checkbox" id="dm" onchange="toggleDark()"> Mode gelap</label></div>
+</nav>
+<div id="shade" class="shade" onclick="toggleSide()"></div>
+<div class="main">
+  <header class="topbar">
+    <button class="btn btn-sm d-lg-none text-white" onclick="toggleSide()"><i class="bi bi-list fs-4"></i></button>
+    <div class="small"><i class="bi bi-calendar3"></i> <span id="clock"></span></div>
+    <div class="ms-auto small d-flex align-items-center gap-2"><i class="bi bi-person-circle"></i> <b id="uName"></b> <span class="badge bg-light text-dark" id="uRole"></span><button class="btn btn-sm btn-outline-light" title="Ganti password" onclick="pwForm()"><i class="bi bi-key"></i></button><button class="btn btn-sm btn-outline-light" title="Keluar" onclick="doLogout()"><i class="bi bi-box-arrow-right"></i></button></div>
+  </header>
+  <main id="view" class="p-3"></main>
+</div>
+<div class="modal fade" id="M" tabindex="-1"><div id="md" class="modal-dialog modal-dialog-centered"><div class="modal-content">
+  <div class="modal-header"><h6 class="modal-title" id="mt"></h6><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body" id="mb"></div><div class="modal-footer" id="mf"></div></div></div></div>
+<div class="toast-container position-fixed top-0 end-0 p-3" style="margin-top:46px;z-index:4000"><div id="T" class="toast align-items-center border-0"><div class="d-flex"><div class="toast-body fw-semibold" id="tmsg"></div><button class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
